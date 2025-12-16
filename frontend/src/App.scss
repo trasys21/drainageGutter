@@ -1,0 +1,1218 @@
+$background-color: #f2f4f6;
+$content-bg-color: #ffffff;
+$primary-color: #3182f6;
+$primary-dark-color: #1b64da;
+$text-color: #191f28;
+$secondary-text-color: #8b95a1;
+$border-color: #e5e8eb;
+
+$toss-primary-blue: #0a66ea;
+$toss-light-blue-bg: #dceafd;
+$toss-shadow-blue: rgba(0, 122, 255, 0.3);
+
+$border-radius: 16px;
+$spacing-unit: 0.8rem;
+$header-height: 60px;
+$bottom-nav-height: 65px;
+
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif;
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  background: $background-color;
+  color: $text-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-web-app-smoothing: grayscale;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.pc-blocker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  background-color: #f0f2f5;
+  color: $text-color;
+
+  .pc-blocker-content {
+    padding: $spacing-unit * 2;
+    border-radius: $border-radius;
+    background: $content-bg-color;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+
+    h1 {
+      font-size: 1.5rem;
+    }
+    p {
+      color: $secondary-text-color;
+    }
+    .qr-code-placeholder {
+      margin-top: $spacing-unit * 1.5;
+      padding: $spacing-unit;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      display: inline-block;
+    }
+  }
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  background: $background-color;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.pc-layout {
+  max-width: 100%;
+}
+
+.App-header {
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $spacing-unit;
+  background: rgba($content-bg-color, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $border-color;
+  position: relative;
+  z-index: 10;
+
+  .header-logo {
+    height: 30px;
+    width: auto;
+  }
+
+  .header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $text-color;
+    white-space: nowrap;
+  }
+
+  .header-right-placeholder {
+    width: 30px;
+    height: 30px;
+  }
+
+  .header-right {
+    position: absolute;
+    right: $spacing-unit;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .header-button {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+}
+
+.App-content {
+  flex-grow: 1;
+  position: relative;
+  padding: 0;
+}
+
+.page-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: $spacing-unit;
+}
+
+.App:not(.pc-layout) .page-container {
+  padding-bottom: $bottom-nav-height + (16px * ($spacing-unit / 1rem));
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 68px;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.75rem;
+    color: #6b7280;
+    transition: color 0.2s ease, transform 0.2s ease;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 2px;
+      stroke-width: 2;
+      stroke: #9ca3af;
+      transition: stroke 0.2s ease;
+    }
+
+    &.active {
+      color: #2563eb; // 메인 블루
+      svg {
+        stroke: #2563eb;
+      }
+    }
+
+    &:hover {
+      color: #2563eb;
+      svg {
+        stroke: #2563eb;
+      }
+      transform: translateY(-1px);
+    }
+  }
+
+  /* 중앙 홈 버튼 */
+  a:nth-child(1) {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 48px;
+    border-radius: 24px;
+
+    background: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+    svg {
+      stroke: #fff;
+      margin: 0;
+      width: 26px;
+      height: 26px;
+    }
+
+    span {
+      display: none;
+    }
+
+    &:hover {
+      background: #1d4ed8;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    &.active {
+      background: #1d4ed8;
+    }
+  }
+
+  a:nth-child(2),
+  a:nth-child(3) {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-nav {
+    height: 62px;
+    padding: 0 1.25rem;
+
+    > a:nth-child(1) {
+      width: 96px;
+      height: 46px;
+      top: -18px;
+    }
+
+    > a svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.content-container {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-content-text {
+  text-align: center;
+}
+
+.secondary-text {
+  color: $secondary-text-color;
+}
+
+.card-container {
+  background-color: $content-bg-color;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  padding: $spacing-unit * 1.2;
+  margin-bottom: $spacing-unit;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: $spacing-unit * 1.5;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.home-menu {
+  display: flex;
+  flex-direction: row;
+  gap: $spacing-unit;
+  padding: $spacing-unit * 1.5 0;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.menu-button {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: $spacing-unit * 1.2;
+  border-radius: $border-radius;
+  background-color: $primary-color;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba($primary-color, 0.2);
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    box-shadow: 0 6px 16px $toss-shadow-blue;
+  }
+
+  &.disabled {
+    background-color: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+    box-shadow: none;
+
+    &:hover {
+      background-color: #e9ecef;
+      box-shadow: none;
+    }
+  }
+}
+
+.report-form-container {
+  h2 {
+    text-align: center;
+  }
+}
+
+.report-guide {
+  .card-container {
+    margin-bottom: $spacing-unit;
+  }
+
+  .guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-unit;
+    margin-bottom: $spacing-unit * 1.5;
+  }
+
+  .guide-step-card {
+    display: flex;
+    align-items: center;
+    background-color: $content-bg-color;
+    border-radius: $border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    padding: $spacing-unit;
+    text-align: left;
+  }
+
+  .step-number {
+    background-color: lighten($primary-color, 35%);
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: $spacing-unit;
+  }
+
+  .step-content {
+    flex-grow: 1;
+    h3 {
+      margin: 0 0 $spacing-unit * 0.25 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: $text-color;
+    }
+    p {
+      margin: 0;
+      font-size: 0.85rem;
+    }
+  }
+
+  .privacy-info {
+    margin-top: $spacing-unit;
+  }
+}
+
+.form-group {
+  margin-bottom: $spacing-unit * 1.8;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-unit * 0.6;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: $text-color;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  textarea {
+    width: 100%;
+    padding: $spacing-unit;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: $content-bg-color;
+    box-shadow: inset 0 0 0 1px $border-color;
+    transition: box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 1px $primary-color,
+        0 0 0 3px rgba($primary-color, 0.15);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  p {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: $secondary-text-color;
+  }
+
+  .phone-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 간격 조정 */
+
+    input {
+      flex: 1;
+      text-align: center;
+      padding: $spacing-unit;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      background-color: $content-bg-color;
+      box-shadow: inset 0 0 0 1px $border-color;
+      transition: box-shadow 0.2s ease;
+
+      &:focus {
+        outline: none;
+        box-shadow: inset 0 0 0 1px $primary-color,
+          0 0 0 3px rgba($primary-color, 0.15);
+      }
+    }
+
+    span {
+      font-size: 1rem;
+      color: $secondary-text-color;
+    }
+  }
+
+  .cause-options + input[type="text"] {
+    margin-top: $spacing-unit; // 기타 입력 필드 상단 간격 조절
+  }
+}
+
+.cause-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-unit * 0.5; // 간격을 더 줄임
+  justify-content: flex-start;
+  align-items: center; // 세로 정렬 추가
+
+  button {
+    border: 1px solid $border-color;
+    background-color: $content-bg-color;
+    padding: 0.4rem 0.8rem; // 패딩을 더 줄여 버튼 크기 더 줄임
+    border-radius: 18px; // 둥근 정도를 더 줄임
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    color: $secondary-text-color;
+    font-size: 0.8rem; // 폰트 크기 더 줄임
+
+    &.selected {
+      background-color: $primary-color;
+      border-color: $primary-color;
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
+
+.submit-button {
+  width: 100%;
+  padding: $spacing-unit * 1.2;
+  margin-top: $spacing-unit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background: $primary-color;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+
+  &:disabled {
+    background-color: #ced4da;
+    cursor: not-allowed;
+  }
+}
+
+.message {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 500;
+  border-radius: $border-radius;
+  background-color: #e7f5ff;
+  color: #0c5460;
+  border: 1px solid #bde0fe;
+  font-size: 0.9rem;
+}
+
+.map-view-container {
+  height: 100%;
+}
+
+.map-view-container .leaflet-container {
+  border-radius: $border-radius;
+  border: 1px solid $border-color;
+  height: 100%;
+}
+
+.custom-div-icon {
+  background: transparent; // Ensure the outer div is transparent
+  border: none; // Remove any default border
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-legend {
+  position: absolute;
+  top: $spacing-unit;
+  right: $spacing-unit;
+  background-color: rgba(255, 255, 255, 0.5); // 더 투명하게
+  padding: $spacing-unit * 0.75; // 크기 줄임
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-size: 0.8rem; // 폰트 크기 줄임
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: $spacing-unit * 0.4; // 간격 줄임
+    font-size: 0.85rem; // 폰트 크기 줄임
+    font-weight: 600;
+    color: $text-color;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-unit * 0.15; // 간격 줄임
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .legend-color {
+    width: 0.8rem; // 크기 줄임
+    height: 0.8rem; // 크기 줄임
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin-right: $spacing-unit * 0.3; // 간격 줄임
+    flex-shrink: 0;
+  }
+
+  .filter-checkbox {
+    margin-right: 8px;
+    cursor: pointer;
+  }
+}
+
+.photo-capture p {
+  margin-bottom: 1.5rem;
+}
+
+.capture-options {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-unit;
+  margin: 0 auto;
+  margin-top: $spacing-unit * 2;
+  width: 100%;
+  max-width: 320px;
+}
+
+.capture-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-unit * 0.75;
+  padding: $spacing-unit;
+  border: 1px solid $border-color;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $text-color;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+    background-color: lighten($primary-color, 35%);
+  }
+}
+
+.photo-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  margin: $spacing-unit * 1.5 auto;
+  border-radius: $border-radius;
+  object-fit: contain;
+  border: 1px solid $border-color;
+}
+
+.report-form-container {
+  width: 100%;
+  text-align: left;
+  .photo-preview {
+    max-height: 300px;
+    object-fit: cover;
+  }
+}
+
+.photo-confirm .button-group {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-unit;
+  margin-top: $spacing-unit * 1.5;
+
+  .menu-button {
+    flex: 1;
+    max-width: 180px;
+    padding: $spacing-unit * 1.2;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: $border-radius;
+    text-align: center;
+
+    &.secondary {
+      background-color: $content-bg-color;
+      color: $text-color;
+      border: 1px solid $border-color;
+      box-shadow: none;
+      &:hover {
+        background-color: darken($content-bg-color, 5%);
+        border-color: darken($border-color, 10%);
+      }
+    }
+  }
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #e0f2fe 0%,
+    // 밝은 하늘색
+    #bae6fd 25%,
+    // 파스텔톤 블루
+    #60a5fa 60%,
+    // 중간 블루
+    #2563eb 100%
+  );
+  z-index: 50;
+  cursor: default;
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  &__bg-circle {
+    position: absolute;
+    width: 24rem;
+    height: 24rem;
+    border-radius: 9999px;
+    filter: blur(30px);
+
+    &--left {
+      top: 25%;
+      left: 25%;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    &--right {
+      bottom: 25%;
+      right: 25%;
+      background: rgba(34, 211, 238, 0.1);
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  &__logo {
+  }
+
+  &__text {
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+
+  &__title {
+    color: #ffffff;
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  &__subtitle {
+    color: #bfdbfe;
+    font-size: 1.125rem;
+  }
+
+  &__loading {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  &__loading-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background-color: #024394;
+  }
+
+  &__skip {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 20;
+    padding: 0.25rem 0.5rem;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  &__click-overlay {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  @media (max-width: 640px) {
+    &__title {
+      font-size: 2.25rem;
+    }
+
+    &__content {
+      gap: 2rem;
+    }
+  }
+}
+
+.weather-section {
+  margin-bottom: $spacing-unit;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-unit * 0.75;
+}
+
+.current-day-weather {
+  background-color: $toss-light-blue-bg;
+  border: 1px solid lighten($toss-light-blue-bg, 5%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.current-day-weather h3,
+.weekly-forecast-card h3 {
+  color: $toss-primary-blue;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.current-day-weather p,
+.weekly-forecast-card p {
+  margin: 5px 0;
+  font-size: 0.95em;
+}
+
+.rain-warning-card {
+  background-color: #f9fafb;
+  border: 1px solid #e5e8eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  min-height: 100px;
+}
+
+.rain-warning {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin-top: 0;
+  border-radius: 0;
+  color: $text-color;
+  font-weight: 600;
+  font-size: 1em;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+
+.rain-warning .warning-icon {
+  color: $toss-primary-blue;
+}
+
+.raining-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.drop {
+  position: absolute;
+  bottom: 100%;
+  width: 2px;
+  height: 10px;
+  background: rgba(173, 216, 230, 0.6);
+  border-radius: 50%;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+}
+
+.forecast-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.forecast-day-card {
+  flex: 1;
+  min-width: 100px;
+  max-width: 150px;
+  background-color: $content-bg-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  padding: $spacing-unit * 0.75;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.forecast-day-card .date {
+  font-weight: bold;
+  color: $toss-primary-blue;
+  margin-bottom: 5px;
+}
+
+.forecast-day-card p {
+  font-size: 0.85em;
+  margin: 3px 0;
+}
+
+.card-container.error {
+  background-color: #ffeeee;
+  border-color: #f04452;
+  color: #e42939;
+}
+
+.location-error-message {
+  color: #e42939;
+  font-size: 0.85em;
+  margin-top: 10px;
+}
+
+.weather-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  .weather-icon {
+    color: $toss-primary-blue;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 600;
+  }
+}
+
+.forecast-day-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .weather-icon {
+    color: $toss-primary-blue;
+    margin-bottom: 5px;
+  }
+}
+
+.temp-range {
+  text-align: center;
+}
+
+.hourly-forecast-card-container {
+  margin-bottom: $spacing-unit;
+}
+
+.hourly-forecast-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 10px; /* 스크롤바 공간 확보 */
+  -webkit-overflow-scrolling: touch; /* iOS 스크롤 개선 */
+
+  /* 스크롤바 숨기기 (선택 사항) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hourly-forecast-card {
+  flex-shrink: 0; /* 카드 크기 고정 */
+  width: 80px; /* 각 카드 너비 */
+  background-color: $content-bg-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  padding: $spacing-unit * 0.75 0;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85em;
+
+  .time {
+    font-weight: bold;
+    color: $text-color;
+    margin-bottom: 5px;
+  }
+
+  .weather-icon {
+    color: $toss-primary-blue;
+    margin-bottom: 5px;
+    font-size: 1.5em; /* 아이콘 크기 조정 */
+  }
+
+  .temperature {
+    font-weight: 600;
+    color: $text-color;
+  }
+}
+
+.report-popup-content {
+  h3 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: $spacing-unit * 0.75;
+    color: $text-color;
+  }
+
+  .report-popup-image {
+    max-width: 150px; // Slightly larger image
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: $border-radius * 0.5; // Slightly rounded corners
+    margin-bottom: $spacing-unit * 0.75;
+    display: block; // Ensure it takes its own line
+  }
+
+  .report-details {
+    p {
+      margin: 0;
+      line-height: 1.4;
+      font-size: 0.85rem; // Slightly smaller for detail text
+      color: $secondary-text-color;
+
+      strong {
+        color: $text-color;
+      }
+    }
+    p:not(:last-child) {
+      margin-bottom: $spacing-unit * 0.2; // Small gap between detail lines
+    }
+  }
+}
+
+.map-toggle-button {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: $spacing-unit auto;
+  padding: $spacing-unit * 0.8;
+  border-radius: $border-radius;
+  background-color: $primary-color;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba($primary-color, 0.2);
+  border: none;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+    box-shadow: 0 6px 16px $toss-shadow-blue;
+  }
+}
+
+.map-view-switcher {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: $border-radius;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  padding: $spacing-unit * 0.5;
+  backdrop-filter: blur(5px);
+  justify-content: space-between;
+  align-items: center;
+  width: 320px;
+  flex-wrap: wrap;
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: $text-color;
+    transition: background-color 0.2s ease;
+    border-radius: $border-radius * 0.5;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 5px; // 체크박스와 텍스트 사이 간격
+      appearance: none; // 기본 체크박스 스타일 제거
+      width: 18px;
+      height: 18px;
+      border: 2px solid $border-color;
+      border-radius: 4px;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+
+      &:checked {
+        background-color: $primary-color;
+        border-color: $primary-color;
+
+        &::after {
+          content: "✔"; // 체크 표시
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 12px;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .download-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    button {
+      background-color: #3182f6;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 0;
+      padding: 0px 3px;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
+      border: none;
+    }
+  }
+}
+
+.lazy-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px; // Same as max-height of the image
+}
+
+.image-loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
