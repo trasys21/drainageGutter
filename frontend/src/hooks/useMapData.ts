@@ -14,7 +14,6 @@ export const useMapData = (mapRef: React.RefObject<Map | null>) => {
   const [zoom, setZoom] = useState<number>(13);
   const [bounds, setBounds] = useState<L.LatLngBounds | null>(null);
 
-  // 맵 이벤트를 통해 zoom과 bounds를 업데이트
   const updateMapState = () => {
     const map = mapRef.current;
     if (map) {
@@ -23,7 +22,6 @@ export const useMapData = (mapRef: React.RefObject<Map | null>) => {
     }
   };
   
-  // 신고 데이터 로딩 (기본 정보만)
   useEffect(() => {
     const fetchReports = async () => {
       setLoading(true);
@@ -42,7 +40,6 @@ export const useMapData = (mapRef: React.RefObject<Map | null>) => {
     fetchReports();
   }, []);
 
-  // 침수 피해 데이터 로딩 (줌 레벨과 경계에 따라)
   useEffect(() => {
     if (!bounds) {
       if (mapRef.current) {
@@ -73,7 +70,6 @@ export const useMapData = (mapRef: React.RefObject<Map | null>) => {
     fetchFloodDamages();
   }, [zoom, bounds]);
 
-  // 사용자 위치 정보 얻기
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

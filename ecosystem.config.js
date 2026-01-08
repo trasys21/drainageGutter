@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "drainage-backend",
       script: "server.js",
-      cwd: "/home/es-dt23-04/Public/drainageGutter/backend", // ✅ 절대경로
+      cwd: "/home/es-dt23-04/Public/drainageGutter/backend",
       watch: true,
       env: {
         NODE_ENV: "production",
@@ -16,9 +16,10 @@ module.exports = {
       name: "drainage-frontend",
       script: "npm",
       args: "start",
-      cwd: "/home/es-dt23-04/Public/drainageGutter/frontend", // ✅ 이것도 절대경로
+      cwd: "/home/es-dt23-04/Public/drainageGutter/frontend", 
       env: {
         NODE_ENV: "development",
+        PORT: 3001,
       },
     },
   ],

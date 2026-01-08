@@ -18,11 +18,10 @@ import {
 } from "../types/reportTypes";
 import ReportPopup from "./ReportPopup";
 import { getCloggingLevelColor, getMarkerIcon } from "../utils/mapUtils";
-import * as XLSX from "xlsx"; // xlsx 라이브러리 임포트
-import { getAddressFromCoordinates } from "../utils/geoUtils"; // 지오코딩 유틸리티 임포트
-import axios from "axios"; // axios 임포트 추가
+import * as XLSX from "xlsx"; 
+import { getAddressFromCoordinates } from "../utils/geoUtils"; 
+import axios from "axios"; 
 
-// Leaflet 아이콘 경로 설정
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -33,7 +32,6 @@ L.Icon.Default.mergeOptions({
 const MapView: React.FC = () => {
   const mapRef = useRef<Map>(null);
 
-  // useMapData 훅으로 데이터 로직 관리
   const {
     reports,
     floodDamages,
@@ -86,7 +84,6 @@ const MapView: React.FC = () => {
     }
   };
 
-  // 맵 이벤트를 처리하는 컴포넌트
   const MapEvents = () => {
     useMapEvents({
       zoomend: updateMapState,
@@ -240,9 +237,6 @@ const MapView: React.FC = () => {
             >
               {isDownloading ? "다운로드 중..." : "막힘 데이터 다운로드"}
             </button>
-            {/* <button onClick={handleDownloadFloodData} disabled={isDownloading}>
-              {isDownloading ? "다운로드 중..." : "침수 데이터 다운로드"}
-            </button> */}
           </div>
         </div>
         <TileLayer

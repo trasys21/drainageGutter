@@ -600,6 +600,190 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
+.camera-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+
+    .guide-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.3s ease;
+
+      &::before {
+        content: "";
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6); 
+        transition: all 0.3s ease;
+      }
+
+      &.step-1::before {
+        width: 250px;
+        height: 250px;
+      }
+
+      &.step-1 .top-boundary-line {
+        position: absolute;
+        width: 100vw; 
+        height: 0; 
+        border-top: 2px dashed #ffd700; 
+        top: calc(50% - 125px); 
+        left: 50%;
+        transform: translateX(-50%);
+        display: block;
+
+        &::after {
+          content: "상단 기준선";
+          position: absolute;
+          right: 20px;
+          top: -25px;
+          color: #ffd700;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+      }
+
+      &.step-2 {
+        justify-content: flex-end; 
+        padding-bottom: 40px;      
+        transform: none;           
+      }
+
+      &.step-2::before {
+        width: 140px; 
+        height: 140px;
+        transform: translateX(30px); 
+      }
+
+      &.step-2 .right-boundary-line {
+        position: absolute;
+        width: 0;
+        height: 100vh;
+        border-right: 2px dashed #ffd700;
+        top: 50%;
+        left: calc(50% + 100px); 
+        transform: translateY(-50%);
+        display: block;
+
+        &::after {
+          content: "도로 / 건물 경계 ▶";
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #ffd700;
+          font-size: 0.8rem;
+          font-weight: 600;
+          white-space: nowrap;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+        }
+      }
+
+      // 안내 문구
+      .guide-text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -100%);
+        color: #ffffff !important; // 흰색 강제
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        width: 100%;
+        padding: 0 20px;
+        line-height: 1.5;
+        z-index: 1000;
+        pointer-events: none;
+        white-space: pre-line; // 줄바꿈 적용
+
+        .step-indicator {
+          display: block;
+          font-size: 0.8rem;
+          color: #ffd700; // 노란색 복구
+          margin-bottom: 8px;
+          letter-spacing: 0.05em;
+        }
+      }
+
+      // 1단계: 텍스트를 250px 박스 하단 근처로
+      &.step-1 .guide-text {
+        top: calc(50% + 125px - 15px);
+      }
+
+      // 2단계: 텍스트를 상단으로, 박스는 하단으로
+      &.step-2 .guide-text {
+        top: 120px; // 화면 상단에 배치
+        transform: translate(-50%, 0); 
+      }
+    }
+
+    .camera-controls {
+      z-index: 1000;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding-bottom: 30px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      pointer-events: auto;
+
+      .control-button {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8rem;
+
+        &.capture-trigger {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          background-color: #fff;
+          border: 5px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+
+          &:active {
+            transform: scale(0.95);
+            background-color: #ddd;
+          }
+        }
+      }
+    }
+  }
+}
+
 .capture-options {
   display: flex;
   flex-direction: column;
@@ -1013,20 +1197,19 @@ h2 {
   display: flex;
   overflow-x: auto;
   gap: 10px;
-  padding-bottom: 10px; /* 스크롤바 공간 확보 */
-  -webkit-overflow-scrolling: touch; /* iOS 스크롤 개선 */
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch; 
 
-  /* 스크롤바 숨기기 (선택 사항) */
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
 }
 
 .hourly-forecast-card {
-  flex-shrink: 0; /* 카드 크기 고정 */
-  width: 80px; /* 각 카드 너비 */
+  flex-shrink: 0; 
+  width: 80px;
   background-color: $content-bg-color;
   border: 1px solid $border-color;
   border-radius: $border-radius;
@@ -1048,7 +1231,7 @@ h2 {
   .weather-icon {
     color: $toss-primary-blue;
     margin-bottom: 5px;
-    font-size: 1.5em; /* 아이콘 크기 조정 */
+    font-size: 1.5em; 
   }
 
   .temperature {
@@ -1066,19 +1249,19 @@ h2 {
   }
 
   .report-popup-image {
-    max-width: 150px; // Slightly larger image
+    max-width: 150px; 
     max-height: 150px;
     object-fit: cover;
-    border-radius: $border-radius * 0.5; // Slightly rounded corners
+    border-radius: $border-radius * 0.5; 
     margin-bottom: $spacing-unit * 0.75;
-    display: block; // Ensure it takes its own line
+    display: block; 
   }
 
   .report-details {
     p {
       margin: 0;
       line-height: 1.4;
-      font-size: 0.85rem; // Slightly smaller for detail text
+      font-size: 0.85rem; 
       color: $secondary-text-color;
 
       strong {
@@ -1086,7 +1269,7 @@ h2 {
       }
     }
     p:not(:last-child) {
-      margin-bottom: $spacing-unit * 0.2; // Small gap between detail lines
+      margin-bottom: $spacing-unit * 0.2; 
     }
   }
 }
@@ -1147,8 +1330,8 @@ h2 {
     }
 
     input[type="checkbox"] {
-      margin-right: 5px; // 체크박스와 텍스트 사이 간격
-      appearance: none; // 기본 체크박스 스타일 제거
+      margin-right: 5px; 
+      appearance: none;
       width: 18px;
       height: 18px;
       border: 2px solid $border-color;
@@ -1205,7 +1388,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 150px; // Same as max-height of the image
+  min-height: 150px; 
 }
 
 .image-loader-spinner {

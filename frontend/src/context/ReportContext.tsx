@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useCallback, ReactNode } from 'react';
 
-// 1. Define the shape of the report data
 interface ReportData {
   photo: File | null;
   photoPreview: string | null;
@@ -13,7 +12,6 @@ interface ReportData {
   phoneNumber: string;
 }
 
-// Define the shape of the form data subset
 interface FormData {
   cloggingLevel: string;
   causeType: string;
@@ -22,7 +20,6 @@ interface FormData {
   phoneNumber: string;
 }
 
-// 2. Define the shape of the context value
 interface ReportContextType {
   reportData: ReportData;
   setPhoto: (photoFile: File) => void;
@@ -31,10 +28,8 @@ interface ReportContextType {
   resetReport: () => void;
 }
 
-// 3. Create the context with a type, but without a default value
 const ReportContext = createContext<ReportContextType | undefined>(undefined);
 
-// 4. Custom hook to use the context
 export const useReport = (): ReportContextType => {
   const context = useContext(ReportContext);
   if (!context) {
@@ -43,13 +38,11 @@ export const useReport = (): ReportContextType => {
   return context;
 };
 
-// 5. Type the provider's props
 interface ReportProviderProps {
   children: ReactNode;
 }
 
 export const ReportProvider: React.FC<ReportProviderProps> = ({ children }) => {
-  // 6. Type the useState hook
   const [reportData, setReportData] = useState<ReportData>({
     photo: null,
     photoPreview: null,
@@ -62,7 +55,6 @@ export const ReportProvider: React.FC<ReportProviderProps> = ({ children }) => {
     phoneNumber: '',
   });
 
-  // 7. Type function parameters
   const setPhoto = useCallback((photoFile: File) => {
     setReportData(prevData => {
       const newPreview = photoFile ? URL.createObjectURL(photoFile) : null;

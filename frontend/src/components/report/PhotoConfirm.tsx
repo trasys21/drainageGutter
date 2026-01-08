@@ -5,28 +5,27 @@ import { useReport } from '../../context/ReportContext';
 interface LocationState {
   file: File;
   previewUrl: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 const PhotoConfirm: React.FC = () => {
-  const { } = useReport(); // setPhoto removed
+  const { } = useReport();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { file, previewUrl } = (location.state as LocationState) || {};
+  const { file, previewUrl, latitude, longitude } = (location.state as LocationState) || {};
 
   useEffect(() => {
-    // ONLY check for the state and redirect if it's missing.
     if (!file || !previewUrl) {
       navigate('/report/capture');
     }
   }, [file, previewUrl, navigate]);
 
   const handleNext = () => {
-    // Pass the data directly to the next route.
-    navigate('/report/form', { state: { file, previewUrl } });
+    navigate('/report/form', { state: { file, previewUrl, latitude, longitude } });
   };
 
-  // Don't render anything if the required state is missing, as we'll be redirecting
   if (!previewUrl) {
     return null;
   }

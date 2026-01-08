@@ -6,7 +6,7 @@ import imageCompression from "browser-image-compression";
 
 const ReportForm: React.FC = () => {
   const location = useLocation();
-  const { file } = (location.state as { file: File }) || {};
+  const { file, latitude, longitude } = (location.state as { file: File; latitude?: number; longitude?: number }) || {};
 
   const { reportData, setPhoto, setLocation } = useReport();
   const navigate = useNavigate();
@@ -15,22 +15,26 @@ const ReportForm: React.FC = () => {
   const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
 
-  // 새로 만든 폼 훅을 사용합니다.
   const {
     formState,
     message,
     isSubmitting,
     handleChange,
-    handlePhoneNumberChange, // 추가
+    handlePhoneNumberChange, 
     handleCauseClick,
     handleCloggingLevelClick,
     handleSubmit,
   } = useReportForm();
 
-  // 전화번호 입력 필드 Ref
   const phonePart1Ref = useRef<HTMLInputElement>(null);
   const phonePart2Ref = useRef<HTMLInputElement>(null);
   const phonePart3Ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      setLocation(latitude, longitude);
+    }
+  }, [latitude, longitude, setLocation]);
 
   useEffect(() => {
     const handleImage = async (imageFile: File) => {
@@ -53,7 +57,6 @@ const ReportForm: React.FC = () => {
         setPhoto(compressedFile);
       } catch (error) {
         console.error("이미지 압축 실패:", error);
-        // 압축 실패 시 원본 파일 사용
         setPhoto(imageFile);
       } finally {
         setIsCompressing(false);
@@ -63,14 +66,14 @@ const ReportForm: React.FC = () => {
     if (file) {
       handleImage(file);
     } else {
-      // 파일이 없는 경우, 사용자를 안내 페이지로 보냅니다.
       navigate("/report/guide");
     }
   }, [file, setPhoto, navigate]);
 
   useEffect(() => {
-    // GPS 정보가 없을 때만 위치를 가져옵니다.
-    if (!reportData.latitude || !reportData.longitude) {
+    const hasPassedCoordinates = latitude !== undefined && longitude !== undefined;
+    
+    if (!hasPassedCoordinates && (!reportData.latitude || !reportData.longitude)) {
       setGpsMessage("GPS 위치 정보를 가져오는 중...");
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -87,15 +90,13 @@ const ReportForm: React.FC = () => {
         setGpsMessage("이 브라우저는 위치 정보를 지원하지 않습니다.");
       }
     }
-  }, [reportData.latitude, reportData.longitude, setLocation]);
+  }, [reportData.latitude, reportData.longitude, setLocation, latitude, longitude]);
 
-  // GPS 좌표로 주소 가져오기
   useEffect(() => {
     const fetchAddress = async () => {
       if (reportData.latitude && reportData.longitude) {
         setLoadingAddress(true);
         try {
-          // OpenStreetMap Nominatim API 사용
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${reportData.latitude}&lon=${reportData.longitude}&zoom=18&addressdetails=1`
           );

@@ -39,7 +39,6 @@ const WeatherDisplay: React.FC = () => {
   } | null>(null);
   const [locationName, setLocationName] = useState<string | null>(null);
 
-  // 날씨 코드에 따른 아이콘 또는 텍스트 매핑
   const getWeatherDescription = (weathercode: number) => {
     switch (weathercode) {
       case 0:
@@ -88,7 +87,6 @@ const WeatherDisplay: React.FC = () => {
     }
   };
 
-  // 날씨 코드에 따른 아이콘 반환
   const getWeatherIcon = (weathercode: number) => {
     const iconProps = { size: 24, className: "weather-icon" };
     switch (weathercode) {
@@ -215,7 +213,6 @@ const WeatherDisplay: React.FC = () => {
               weathercode: weatherData.hourly.weathercode[index],
             })
           );
-          // Filter to show only the next 24 hours starting from the current hour
           const now = new Date();
           const currentHour = now.getHours();
           const filteredHourly = hourlyWeather
@@ -228,7 +225,7 @@ const WeatherDisplay: React.FC = () => {
                   itemDate.getHours() < currentHour)
               );
             })
-            .slice(0, 24); // Ensure only next 24 hours
+            .slice(0, 24);
 
           setHourlyWeatherData(filteredHourly);
         } else {
