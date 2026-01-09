@@ -1,0 +1,18 @@
+[Unit]
+Description=Drainage Gutter Frontend
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/es-dt23-04/Public/drainageGutter/frontend
+Environment=PATH=/root/.nvm/versions/node/v22.19.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=NODE_ENV=development
+Environment=PORT=3001
+Environment=CI=true
+Environment=BROWSER=none
+ExecStart=/root/.nvm/versions/node/v22.19.0/bin/npm start
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target
